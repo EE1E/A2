@@ -17,6 +17,8 @@ RED		EQU		0X01
 AMBER	EQU		0X02
 GREEN	EQU		0X03
 COUNT	EQU		0X0E
+PR		EQU		0X04	;PEDESTRIAN RED
+PG		EQU		0X05	;PEDESTRIAN GREEN
 
 ; ----------------------- MAIN PROGRAM ------------------------------------
         ORG     0X00    ;'ORG' SPECIFIES THE MEMORY LOCATION OF THE PROGRAM
@@ -29,23 +31,23 @@ COUNT	EQU		0X0E
         CLRF    PORTB   ;CLEAR THE PORTB REGISTER
 
 LOOP
-REDL    BSF		PORTB,RED
-		CALL	DELAY
-		BCF		PORTB,RED
+REDL    BSF		PORTB,RED	;turn on red light then delay
+		CALL	DELAY		
+		BCF		PORTB,RED	;turn off red light then delay
 		CALL 	DELAY
-AMBERL	CALL	AFLASH
-GREENL	BSF		PORTB,GREEN
+AMBERL	CALL	AFLASH		;calls subroutine to flash the amber led 3 times
+GREENL	BSF		PORTB,GREEN	;turns on green led then runs a delay
 		CALL	DELAY
-		BCF		PORTB,GREEN
+		BCF		PORTB,GREEN	;turns off green led then runs delay
 		CALL 	DELAY		
 		
     	GOTO    LOOP
 
 
 
-DELAY	MOVLW	0X05
+DELAY	MOVLW	0X05	;does this delay of 0.2 seconds five times, so a delay of 1 second
 		MOVWF	COUNT
-DSTART	MOVLW 	0XFF	; RUNS A DELAY 
+DSTART	MOVLW 	0XFF	; RUNS A DELAY  of 255*255*3 micro seconds
 		MOVWF 	MCOUNT
 GET_N	MOVLW 	0XFF
 		MOVWF 	NCOUNT
@@ -57,7 +59,7 @@ DEC_N 	DECFSZ 	NCOUNT,F
 		GOTO	DSTART
 		RETURN
 
-SDELAY	MOVLW 	0XFF	; RUNS A DELAY 
+SDELAY	MOVLW 	0XFF	; RUNS A small DELAY of 0.2 seconds
 		MOVWF 	MCOUNT
 GET_S	MOVLW 	0XFF
 		MOVWF 	NCOUNT
@@ -67,7 +69,7 @@ DEC_S 	DECFSZ 	NCOUNT,F
 		GOTO 	GET_S
 		RETURN
 
-AFLASH	MOVLW	0X03
+AFLASH	MOVLW	0X03		; flashes the amber light three times
 		MOVWF	COUNT
 ASTART	BSF		PORTB,AMBER
 		CALL	SDELAY
