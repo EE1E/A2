@@ -60,7 +60,13 @@ AMBERL	CALL	AFLASH		;calls subroutine to flash the amber led 3 times
 GREENL	BSF		PORTB,GREEN	;turns on green led then runs a delay
 		CALL	DELAY
 		BCF		PORTB,GREEN	;turns off green led then runs delay
-		CALL 	DELAY		
+		CALL 	DELAY	
+AMBERL 	BSF 	PORTB,AMBER
+		CALL DELAY
+		BCF PORTB,AMBER
+		CALL DELAY
+
+	
 		
     	GOTO    LOOP
 
