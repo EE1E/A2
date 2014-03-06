@@ -1,0 +1,52 @@
+; WRITTEN BY            SIW
+; DATE                  12/12/04
+; FILE SAVED AS         TEST.ASM
+; DEVICE                PIC16F84
+; OSCILLATOR            XT (4MHZ)
+; WATCHDOG              DISABLED
+; CODE PROTECT          OFF
+; FUNCTION              OUTPUTS THE VALUE 0XF1 TO LEDS CONNECTED TO PORTB
+;                       (THIS TEST PROGRAM IS USED IN PIC LABORATORY 1)
+; -----------------------   EQUATES    ------------------------------------
+W       EQU     0
+F       EQU     1
+ICOUNT  EQU     0X0C
+JCOUNT  EQU     0X0D
+KCOUNT  EQU     0X0E
+PORTA   EQU     0X05
+PORTB   EQU     0X06    ;ASSIGN THE PORTB REGISTER TO THE LABEL 'PORTB'
+; ----------------------- MAIN PROGRAM ------------------------------------
+        ORG     0X00   
+        MOVLW   0X00    
+        TRIS    PORTB
+        MOVLW   0XFF
+        TRIS    PORTA
+                       
+                        
+LOOP_LED    CLRF    PORTB
+            MOVLW   0XF1
+            MOVWF   PORTB
+            CALL    DELAY
+            CLRF    PORTB
+            MOVLW   0XF2
+            MOVWF   PORTB
+            CALL    DELAY
+            GOTO    LOOP_LED
+
+
+DELAY   MOVLW   0X05
+        MOVWF   KCOUNT
+GET_I   MOVLW   0XFF
+        MOVWF   ICOUNT
+GET_J   MOVLW   0XFF
+        MOVWF   JCOUNT
+DEC_J   DECFSZ  JCOUNT,F
+        GOTO    DEC_J
+        DECFSZ  ICOUNT,F
+        GOTO    GET_J
+        DECFSZ  KCOUNT,F
+        GOTO    GET_I
+        RETURN
+
+LOOP    GOTO    LOOP
+        END
