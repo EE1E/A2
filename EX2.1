@@ -22,8 +22,6 @@ PG		EQU		0X05	;PEDESTRIAN GREEN
 
 ; ----------------------- MAIN PROGRAM ------------------------------------
         ORG     0X00    ;'ORG' SPECIFIES THE MEMORY LOCATION OF THE PROGRAM
-		MOVLW	0XFF
-		TRIS	PORTA
 		MOVLW   0X00    ;MOVE THE VALUE 00, I.E., ALL 0'S TO W
         TRIS    PORTB   ;CONFIGURE PORTB WITH THE VALUE IN W (THE
                         ;WORKING REGISTER) 1=INPUT AND 0=OUTPUT.  
@@ -35,11 +33,15 @@ REDL    BSF		PORTB,RED	;turn on red light then delay
 		CALL	DELAY		
 		BCF		PORTB,RED	;turn off red light then delay
 		CALL 	DELAY
-AMBERL	CALL	AFLASH		;calls subroutine to flash the amber led 3 times
+AMBERF	CALL	AFLASH		;calls subroutine to flash the amber led 3 times
 GREENL	BSF		PORTB,GREEN	;turns on green led then runs a delay
 		CALL	DELAY
 		BCF		PORTB,GREEN	;turns off green led then runs delay
-		CALL 	DELAY		
+		CALL 	DELAY	
+AMBERL	BSF		PORTB,AMBER
+		CALL	DELAY
+		BCF		PORTB,AMBER
+		CALL	DELAY		
 		
     	GOTO    LOOP
 
