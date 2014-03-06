@@ -20,8 +20,8 @@ PR		EQU		0X04	;PEDESTRIAN RED
 PG		EQU		0X05	;PEDESTRIAN GREEN
 INTCON	EQU		0X0B	
 RBIF	EQU		0X00
-RBIE	EQU		0X03
 GIE		EQU		0X07
+RBIE	EQU		0X03
 
 ; ----------------------- MAIN PROGRAM ------------------------------------
         ORG     0X00    ;'ORG' SPECIFIES THE MEMORY LOCATION OF THE PROGRAM
@@ -52,7 +52,7 @@ START
 		BSF		INTCON,GIE	;ENABLES THE INTERRUPT
 		BSF		INTCON,RBIE
 
-LOOP
+
 REDL    BSF		PORTB,RED	;turn on red light then delay
 		CALL	DELAY		
 		BCF		PORTB,RED	;turn off red light then delay
@@ -69,7 +69,7 @@ AMBERL 	BSF 	PORTB,AMBER
 
 	
 		
-    	GOTO    LOOP
+    	GOTO    REDL
 
 
 
