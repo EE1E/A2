@@ -5,6 +5,8 @@
 ; OSCILLATOR            XT (4MHZ)
 ; WATCHDOG              DISABLED
 ; CODE PROTECT          OFF
+; DP 					OFF
+; PWERTE				ENABLED
 ; FUNCTION              *********
 ; -----------------------   GENERAL EQUATES    ----------------------------
 W       EQU     0
@@ -34,14 +36,14 @@ INTCON  EQU     0X0B
         GOTO INT_SER
 
 INT_SER
-             CLRF    PORTB
              CALL    SEQ
              BCF     INTCON,RBIF
+ 			 CLRF    PORTB
         RETFIE
 
 
 START
-        MOVLW   B'10000000'
+        MOVLW   B'11000000'
         TRIS    PORTB
         CLRF    PORTB
         BSF     INTCON,GIE
@@ -78,7 +80,7 @@ DEC_X   DECFSZ  JCOUNT,F
 FLASH   MOVLW   0X08
         MOVWF   FCOUNT
         CLRW
-GET_F   MOVF    FLIGHT,W
+GET_F   MOVLW	B'00001010'
         MOVWF   PORTB
         CALL    SDELAY
         CLRF     PORTB
@@ -89,7 +91,6 @@ GET_F   MOVF    FLIGHT,W
 
 SEQ     BCF    PORTB, GREEN
         BSF    PORTB, AMBER
-        BSF    PORTB, P_RED
         CALL   DELAY
         CLRF   PORTB
         BSF    PORTB, RED
@@ -97,8 +98,6 @@ SEQ     BCF    PORTB, GREEN
         CALL    DELAY
         CALL    DELAY
         CLRF   PORTB
-        MOVLW  B'00001010'
-        MOVWF  FLIGHT
         CALL   FLASH
         RETURN
 
